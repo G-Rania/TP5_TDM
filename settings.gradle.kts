@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "TP5"
 include(":app")
 include(":exo1")
+include(":exo2")
