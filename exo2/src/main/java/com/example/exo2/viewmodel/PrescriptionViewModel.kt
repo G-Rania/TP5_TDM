@@ -3,6 +3,7 @@ package com.example.exo2.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.exo2.entity.Converters
 import com.example.exo2.entity.Prescription
 import com.example.exo2.entity.PrescriptionMedication
 import com.example.exo2.entity.PrescriptionWithMedications
@@ -10,15 +11,23 @@ import com.example.exo2.repository.PrescriptionRepository
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+import androidx.lifecycle.asLiveData
 
 class PrescriptionViewModel(private val prescriptionRepository: PrescriptionRepository) : ViewModel() {
 
+    val prescription = mutableStateOf<Prescription?>(null)
     val prescriptions = mutableStateOf(emptyList<PrescriptionWithMedications>())
     val prescriptionWithMeds = mutableStateOf<PrescriptionWithMedications?>(null)
 
     fun getPrescriptions() {
         viewModelScope.launch {
             prescriptions.value = prescriptionRepository.getAllPrescriptions()
+        }
+    }
+
+    fun getPrescriptionById(id : Int){
+        viewModelScope.launch {
+            prescription.value = prescriptionRepository.getPrescriptionById(id)
         }
     }
 
@@ -35,7 +44,7 @@ class PrescriptionViewModel(private val prescriptionRepository: PrescriptionRepo
         date: String
     ) {
         viewModelScope.launch {
-            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             val parsedDate = formatter.parse(date)
 
             val prescription = Prescription(

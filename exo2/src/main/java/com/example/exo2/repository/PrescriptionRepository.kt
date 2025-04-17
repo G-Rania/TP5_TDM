@@ -14,6 +14,9 @@ class PrescriptionRepository(private val prescriptionDao: PrescriptionDao) {
     suspend fun addMedicationToPrescription(link: PrescriptionMedication) =
         prescriptionDao.insertPrescriptionMedicationCrossRef(link)
 
+    suspend fun getPrescriptionById(id : Int) =
+        prescriptionDao.getPrescriptionById(id)
+
     suspend fun getPrescriptionWithMedications(id: Int) =
         prescriptionDao.getPrescriptionWithMedications(id)
 

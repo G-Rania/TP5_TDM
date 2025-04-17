@@ -12,6 +12,9 @@ interface PrescriptionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPrescriptionMedicationCrossRef(crossRef: PrescriptionMedication)
 
+    @Query("SELECT * FROM Prescription WHERE prescriptionId = :id")
+    suspend fun getPrescriptionById(id: Int): Prescription
+
     @Transaction
     @Query("SELECT * FROM Prescription WHERE prescriptionId = :id")
     suspend fun getPrescriptionWithMedications(id: Int): PrescriptionWithMedications
